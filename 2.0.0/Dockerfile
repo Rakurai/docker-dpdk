@@ -18,7 +18,7 @@ ENV RTE_SDK=/usr/src/dpdk \
 
 RUN curl -sSL http://dpdk.org/browse/dpdk/snapshot/dpdk-2.0.0.tar.gz \
   | tar -C /usr/src -xz
-  && mv /usr/src/dpdk-2.0.0 $RTE_SDK
+RUN mv /usr/src/dpdk-2.0.0 $RTE_SDK
 
 RUN cd $RTE_SDK && make install T=$RTE_TARGET
 
