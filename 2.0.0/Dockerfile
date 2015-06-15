@@ -10,17 +10,22 @@ CMD ["/sbin/my_init"]
 # ...put your own build instructions here...
 RUN apt-get update && apt-get install -y \
   gcc \
-  make \
-  linux-headers-`uname -r`
+  make
+ONBUILD RUN apt-get update && apt-get install -y linux-headers-`uname -r`
 
-ENV RTE_SDK=/usr/src/dpdk \
-    RTE_TARGET=x86_64-native-linuxapp-gcc
+ENV RTE_VERSION 2.0.0
+ENV RTE_SDK /usr/src/dpdk
 
-RUN curl -sSL http://dpdk.org/browse/dpdk/snapshot/dpdk-2.0.0.tar.gz \
+ONBUILD COPY rte_env ${RTE_SDK}/
+ONBUILD RUN /bin/bash -c "source ${RTE_SDK}/rte_env"
+
+#    RTE_TARGET=x86_64-native-linuxapp-gcc
+
+ONBUILD RUN curl -sSL http://dpdk.org/browse/dpdk/snapshot/dpdk-${RTE_VERSION}.tar.gz \
   | tar -C /usr/src -xz
-RUN mv /usr/src/dpdk-2.0.0 $RTE_SDK
+ONBUILD RUN mv /usr/src/dpdk-${RTE_VERSION} ${RTE_SDK}
 
-RUN cd $RTE_SDK && make install T=$RTE_TARGET
+ONBUILD RUN cd ${RTE_SDK} && make install T=${RTE_TARGET}
 
 #ENTRYPOINT ["tools/setup.sh"]
 
