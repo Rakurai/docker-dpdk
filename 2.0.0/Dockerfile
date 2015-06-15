@@ -24,4 +24,4 @@ ONBUILD RUN apt-get update && apt-get install -y --no-install-recommends \
 ONBUILD RUN . ${RTE_SDK}/dpdk_env.sh; \
   cd ${RTE_SDK} \
   && make install T=${RTE_TARGET} \
-  && make clean
+#  && make clean
