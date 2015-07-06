@@ -30,5 +30,5 @@ ONBUILD RUN \
   . ${RTE_SDK}/dpdk_env.sh; \
   . ${RTE_SDK}/dpdk_config.sh; \
   cd ${RTE_SDK} \
-  && make install T=${RTE_TARGET} \
+  && make install T=${RTE_TARGET} -j20 \
 #  && make clean
